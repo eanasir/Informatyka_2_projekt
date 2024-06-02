@@ -6,7 +6,6 @@
 #include "rk4.h"
 #include "winbgi2.h"
 
-#define NSTATE 2
 
 //deklaracja sta³ych
 #define m 1
@@ -26,7 +25,7 @@ int main()
 	FILE* g;
 	g = fopen("wynik.txt", "w");
 	double tp, tk, h, t;
-	double X[NSTATE], X1[NSTATE];
+	double X[2], X1[2];
 	int nstep;
 	double Emech;
 	double F, k;
