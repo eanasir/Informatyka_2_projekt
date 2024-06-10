@@ -20,6 +20,12 @@ void rhs_fun(double t, double* X, double* F)
 	F[0] = (( - k * X[1]) / m ) - c*X[0];
 	F[1] = X[0];
 }
+double analytic_solution(double x) {
+	double omega, revOmega;
+	omega = sqrt(k1/ (c + m));
+	revOmega = sqrt((c + m) / k1);
+	return cos(omega * x) + revOmega * sin(omega * x);
+}
 int main()
 {
 	FILE* g;
@@ -43,14 +49,16 @@ int main()
 	X[1] = x;//po³o¿enie
 	for (int i = 1; i < nstep; i++)
 	{
-		k = k1 * (1 + k2 * X1[1] * X1[1]);
-		vrk4(t, X, h, NSTATE, rhs_fun, X1);
+		
+		vrk4(x, X, h, 2, rhs_fun, X1);
 		Emech = (m * X1[0] * X1[0]) / 2 + (k1 * X1[1] * X1[1]) / 2 + (k1 * k2 * X1[1] * X1[1] * X1[1] * X1[1]) / 4;
-		F = (-k * X1[1]);
+		
 		t = t + h;
-		fprintf(g,"%6.2lf\t%6.2lf\t%6.2lf\t%6.2lf\n", t, X1[0], X1[1], F);
 		X[0] = X1[0];
 		X[1] = X1[1];
+		k = k1 * (1 + k2 * X1[1] * X1[1]);
+		F = (-k * X1[1]);
+		fprintf(g, "%.2lf\t%.2lf\t%.2lf\t%.2lf\t%.2lf\n", t, X1[0], X1[1], F,analytic_solution(t));
 	}
 	return 0;
 
