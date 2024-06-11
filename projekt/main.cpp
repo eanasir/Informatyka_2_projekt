@@ -21,10 +21,11 @@ void rhs_fun(double t, double* X, double* F)
 	F[1] = X[0];
 }
 double analytic_solution(double x) {
-	double omega, revOmega;
-	omega = sqrt(k1/ (c + m));
-	revOmega = sqrt((c + m) / k1);
-	return cos(omega * x) + revOmega * sin(omega * x);
+	double omega, tau;
+	omega = sqrt(k1/m);
+	//tau = m / c;
+	
+	return 0.1*( exp(-0.5*c* x) * cos(sqrt(k1 - 4 * c * c) * x));
 }
 int main()
 {
@@ -37,13 +38,13 @@ int main()
 	double F, k;
 	double v = 0, x = 0;
 	tp = 0;
-	tk = 20;
+	tk = 10;
 	h = 0.001;
 	nstep = (tk - tp) / h;
 	t = tp;
 	//deklaracja warunkow poczatkowych 
-	x = 1;
-	v = 1;
+	x = 0.1;
+	v = 0;
 	//koniec deklaracji
 	X[0] = v;//prêdkoœæ
 	X[1] = x;//po³o¿enie
@@ -58,7 +59,7 @@ int main()
 		X[1] = X1[1];
 		k = k1 * (1 + k2 * X1[1] * X1[1]);
 		F = (-k * X1[1]);
-		fprintf(g, "%.2lf\t%.2lf\t%.2lf\t%.2lf\t%.2lf\n", t, X1[0], X1[1], F,analytic_solution(t));
+		fprintf(g, "%lf\t%lf\t%lf\t%lf\t%lf\n", t, X1[0], X1[1], F,analytic_solution(t));
 	}
 	return 0;
 
